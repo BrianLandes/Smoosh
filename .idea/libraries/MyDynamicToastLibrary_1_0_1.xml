@@ -1,0 +1,12 @@
+<component name="libraryTable">
+  <library name="MyDynamicToastLibrary-1.0.1">
+    <CLASSES>
+      <root url="file://$USER_HOME$/.android/build-cache/5378756dab0ce1e0f11849d72db00bdddbc0a4c6/output/res" />
+      <root url="jar://$USER_HOME$/.android/build-cache/5378756dab0ce1e0f11849d72db00bdddbc0a4c6/output/jars/classes.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.github.vatsaldesai92/MyDynamicToastLibrary/1.0.1/d09462318caab258e26040583d4eae9d026db62b/MyDynamicToastLibrary-1.0.1-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

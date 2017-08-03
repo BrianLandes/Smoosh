@@ -1,0 +1,12 @@
+<component name="libraryTable">
+  <library name="fragmentanimations-0.1.1">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.android/build-cache/b5d6234e68f30ab1f73263271d313b0c234791b1/output/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.android/build-cache/b5d6234e68f30ab1f73263271d313b0c234791b1/output/res" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.labo.kaji/fragmentanimations/0.1.1/7367b6d3d3af457b2dbcc845de49ff8f07153bfe/fragmentanimations-0.1.1-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

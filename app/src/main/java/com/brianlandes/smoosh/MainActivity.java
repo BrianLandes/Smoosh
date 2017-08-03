@@ -8,6 +8,9 @@ import android.view.View;
 
 import com.brianlandes.smoosh.fragments.MainScreenFragment;
 import com.brianlandes.smoosh.fragments.edit_profile.EditProfileFragment;
+import com.brianlandes.smoosh.structures.Smoosher;
+import com.brianlandes.smoosh.utils.AssetUtils;
+import com.desai.vatsal.mydynamictoast.MyDynamicToast;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -38,7 +41,7 @@ public class MainActivity extends AppCompatActivity {
 
         // TODO: on initial registration take them to the edit profile page
 
-//        AssetUtils.currentUser = new Smoosher();
+        AssetUtils.currentUser = new Smoosher();
 
 //        finish();
     }
@@ -47,7 +50,8 @@ public class MainActivity extends AppCompatActivity {
         EditProfileFragment editScreenFragment = new EditProfileFragment();
 
         fragmentManager.beginTransaction()
-                .add( R.id.main_container, editScreenFragment )
+                .replace( R.id.main_container, editScreenFragment )
+                .addToBackStack(null)
                 .commit();
 
         Log.d(TAG, "ClickEditProfile" );
