@@ -1,5 +1,8 @@
 package com.brianlandes.smoosh.utils;
 
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -31,11 +34,37 @@ public class DatabaseUtils {
         _currentUid = null;
     }
 
-    public static DatabaseReference getUserPhotos(String uid ) {
+    public static DatabaseReference getUserPhotos( @Nullable String uid ) {
         FirebaseDatabase database = Database();
         if ( uid == null )
             uid = currentUserUid();
         String path = "photos/" + uid + "/";
         return database.getReference( path );
+    }
+
+    public static DatabaseReference getUserBio( @Nullable String uid ) {
+        FirebaseDatabase database = Database();
+        if ( uid == null )
+            uid = currentUserUid();
+        String path = "bios/" + uid + "/";
+        return database.getReference( path );
+    }
+
+    public static void SetUserBio( @NonNull String text ) {
+        DatabaseReference bioRef = DatabaseUtils.getUserBio(null);
+        bioRef.setValue( text);
+    }
+
+    public static DatabaseReference getUserName( @Nullable String uid ) {
+        FirebaseDatabase database = Database();
+        if ( uid == null )
+            uid = currentUserUid();
+        String path = "names/" + uid + "/";
+        return database.getReference( path );
+    }
+
+    public static void SetUserName( @NonNull String text ) {
+        DatabaseReference bioRef = DatabaseUtils.getUserName(null);
+        bioRef.setValue( text);
     }
 }

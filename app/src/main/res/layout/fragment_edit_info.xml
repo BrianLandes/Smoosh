@@ -1,0 +1,48 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context="com.brianlandes.smoosh.fragments.edit_profile.EditInfoFragment"
+    android:orientation="vertical"
+    android:weightSum="1">
+
+    <!-- TODO: Update blank fragment layout -->
+
+    <com.rengwuxian.materialedittext.MaterialEditText
+        android:id="@+id/name_edit_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="@string/display_name_header"
+        android:inputType="textPersonName"
+        app:met_floatingLabel="normal"
+        app:met_minCharacters="@integer/min_name_length"
+        app:met_maxCharacters="@integer/max_name_length"/>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="8dp">
+
+    </FrameLayout>
+
+    <com.rengwuxian.materialedittext.MaterialEditText
+        android:id="@+id/editText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.12"
+        android:hint="@string/bio_header"
+        android:ems="10"
+        android:inputType="textMultiLine"
+        android:padding="8dp"
+        android:paddingLeft="8dp"
+        android:paddingRight="8dp"
+        app:met_maxCharacters="@integer/max_bio_length"/>
+
+    <Button
+        android:id="@+id/save_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/fui_button_text_save" />
+
+</LinearLayout>

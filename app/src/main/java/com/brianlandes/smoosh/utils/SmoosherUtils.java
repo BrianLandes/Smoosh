@@ -1,6 +1,9 @@
 package com.brianlandes.smoosh.utils;
 
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.util.Log;
+import android.widget.EditText;
 
 import com.brianlandes.smoosh.structures.ProfilePhoto;
 import com.brianlandes.smoosh.structures.Smoosher;
@@ -40,5 +43,43 @@ public class SmoosherUtils {
             }
         });
         AssetUtils.currentUser = smoosher;
+    }
+
+    public static void FillEditTextWithUserName(@NonNull final EditText editText, @Nullable String uid ) {
+        DatabaseReference bioRef = DatabaseUtils.getUserName(uid);
+
+        bioRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if ( dataSnapshot.exists() ) {
+                    String text = dataSnapshot.getValue().toString();
+                    editText.setText(text);
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                // todo: handle this shit
+            }
+        });
+    }
+
+    public static void FillEditTextWithUserBio(@NonNull final EditText editText, @Nullable String uid ) {
+        DatabaseReference bioRef = DatabaseUtils.getUserBio(uid);
+
+        bioRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if ( dataSnapshot.exists() ) {
+                    String text = dataSnapshot.getValue().toString();
+                    editText.setText(text);
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                // todo: handle this shit
+            }
+        });
     }
 }

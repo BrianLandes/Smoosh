@@ -6,15 +6,16 @@
     android:layout_height="wrap_content"
     android:layout_marginTop="1dp"
     android:background="@android:color/darker_gray"
-    android:visibility="visible">
+    android:visibility="visible"
+    android:clickable="true">
 
-    <ImageView
+    <com.dmallcott.dismissibleimageview.DismissibleImageView
         android:id="@+id/imageView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
         android:layout_marginLeft="1dp"
-        android:layout_marginRight="8dp"
+        android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="2dp"
         app:layout_constraintBottom_toBottomOf="parent"

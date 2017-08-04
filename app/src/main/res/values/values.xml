@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <integer name="min_name_length">1</integer>
+    <integer name="max_name_length">20</integer>
+    <integer name="max_bio_length">100</integer>
+
+</resources>

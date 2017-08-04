@@ -1,31 +1,23 @@
 package com.brianlandes.smoosh.fragments.edit_profile;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
-import android.graphics.drawable.NinePatchDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
-import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import com.brianlandes.smoosh.AppSettings;
 import com.brianlandes.smoosh.R;
@@ -37,7 +29,6 @@ import com.brianlandes.smoosh.utils.StorageUtils;
 import com.desai.vatsal.mydynamictoast.MyDynamicToast;
 
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.storage.UploadTask;
 import com.h6ah4i.android.widget.advrecyclerview.animator.DraggableItemAnimator;
 import com.h6ah4i.android.widget.advrecyclerview.animator.GeneralItemAnimator;
@@ -62,8 +53,8 @@ import static com.brianlandes.smoosh.utils.ImageUtils.FillImageViewWithUrl;
  * Created by Brian on 8/3/2017.
  */
 
-public class EditProfileFragment extends Fragment implements View.OnClickListener {
-    public final String TAG = EditProfileFragment.class.getSimpleName();
+public class EditPhotosFragment extends Fragment implements View.OnClickListener {
+    public final String TAG = EditPhotosFragment.class.getSimpleName();
 
     private int PICK_IMAGE_REQUEST = 1;
     private static final int REQUEST_STORAGE_PERMISSION = 101;
@@ -82,11 +73,11 @@ public class EditProfileFragment extends Fragment implements View.OnClickListene
     private RecyclerView.Adapter mWrappedAdapter;
     GridAdapter adapter;
 
-    public EditProfileFragment() {}
+    public EditPhotosFragment() {}
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_edit_profile, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_edit_photos, container, false);
 
         unbinder = ButterKnife.bind(this, rootView);
 
@@ -141,14 +132,14 @@ public class EditProfileFragment extends Fragment implements View.OnClickListene
         return rootView;
     }
 
-    @Override
-    public Animation onCreateAnimation(int transit, boolean enter, int nextAnim) {
-        if (enter) {
-            return MoveAnimation.create(MoveAnimation.LEFT, enter, AppSettings.TRANSITION_DURATION);
-        } else {
-            return MoveAnimation.create(MoveAnimation.RIGHT, enter, AppSettings.TRANSITION_DURATION);
-        }
-    }
+//    @Override
+//    public Animation onCreateAnimation(int transit, boolean enter, int nextAnim) {
+//        if (enter) {
+//            return MoveAnimation.create(MoveAnimation.LEFT, enter, AppSettings.TRANSITION_DURATION);
+//        } else {
+//            return MoveAnimation.create(MoveAnimation.RIGHT, enter, AppSettings.TRANSITION_DURATION);
+//        }
+//    }
 
     // When binding a fragment in onCreateView, set the views to null in onDestroyView.
     // ButterKnife returns an Unbinder on the initial binding that has an unbind method to do this automatically.

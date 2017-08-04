@@ -9,11 +9,9 @@ import android.util.Log;
 import android.view.View;
 
 import com.brianlandes.smoosh.fragments.MainScreenFragment;
-import com.brianlandes.smoosh.fragments.edit_profile.EditProfileFragment;
-import com.brianlandes.smoosh.structures.Smoosher;
-import com.brianlandes.smoosh.utils.AssetUtils;
+import com.brianlandes.smoosh.fragments.edit_profile.EditPhotosFragment;
+import com.brianlandes.smoosh.fragments.edit_profile.EditUserTabbedFragment;
 import com.brianlandes.smoosh.utils.SmoosherUtils;
-import com.desai.vatsal.mydynamictoast.MyDynamicToast;
 import com.firebase.ui.auth.AuthUI;
 import com.firebase.ui.auth.ErrorCodes;
 import com.firebase.ui.auth.IdpResponse;
@@ -32,16 +30,20 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
         fragmentManager = getSupportFragmentManager();
+        if ( savedInstanceState==null ) {
 
-        FirebaseAuth auth = FirebaseAuth.getInstance();
-        if (auth.getCurrentUser() != null) {
-            // already signed in
-            ContinueToMainScreen();
-        } else {
-            // not signed in
-            SignIn( null );
+
+
+
+            FirebaseAuth auth = FirebaseAuth.getInstance();
+            if (auth.getCurrentUser() != null) {
+                // already signed in
+                ContinueToMainScreen();
+            } else {
+                // not signed in
+                SignIn(null);
+            }
         }
     }
 
@@ -68,14 +70,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void ClickEditProfile(View view) {
-        EditProfileFragment editScreenFragment = new EditProfileFragment();
-
+//        EditPhotosFragment editScreenFragment = new EditPhotosFragment();
+        EditUserTabbedFragment editScreenFragment = new EditUserTabbedFragment();
         fragmentManager.beginTransaction()
                 .replace( R.id.main_container, editScreenFragment )
                 .addToBackStack(null)
                 .commit();
-
-        Log.d(TAG, "ClickEditProfile" );
     }
 
     @Override
