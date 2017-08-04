@@ -39,10 +39,10 @@ public class StorageUtils {
             Bitmap bitmap = MediaStore.Images.Media.getBitmap(context.getContentResolver(), uri);
 
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            bitmap.compress(Bitmap.CompressFormat.PNG, 100, baos);
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
             byte[] byteArray = baos.toByteArray();
 
-            String videoName = DatabaseUtils.currentUserUid() + "_" + TimeUtils.Timestamp() + ".png";
+            String videoName = DatabaseUtils.currentUserUid() + "_" + TimeUtils.Timestamp() + ".jpg";
             StorageReference photosRef = getPhotos().child(videoName);
 
             UploadTask uploadTask = photosRef.putBytes(byteArray);

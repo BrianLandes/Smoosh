@@ -9,7 +9,7 @@ import java.text.SimpleDateFormat;
 public class TimeUtils {
     public static String Timestamp() {
         java.util.Date date= new java.util.Date();
-        String timeStamp = new SimpleDateFormat("yyyy-MM-dd_HH:mm:ss")
+        String timeStamp = new SimpleDateFormat("yyyy-MM-dd_HH-mm-ss")
                 .format(date.getTime());
         return timeStamp;
     }

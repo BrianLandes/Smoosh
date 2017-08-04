@@ -9,6 +9,7 @@ import android.net.Uri;
 public class ProfilePhoto {
 
     public Uri localUri;
+    public Uri storageUri;
     public int position;
     public long id;
 

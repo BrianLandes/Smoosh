@@ -220,9 +220,8 @@ public class EditProfileFragment extends Fragment implements View.OnClickListene
             startActivityForResult(uCrop.getIntent(getContext()), UCrop.REQUEST_CROP);
         } else if (resultCode == Activity.RESULT_OK && requestCode == UCrop.REQUEST_CROP) {
             final Uri resultUri = UCrop.getOutput(data);
-            Log.d(TAG,resultUri.toString());
             if (resultUri != null) {
-                ProfilePhoto photo = AssetUtils.currentUser.AddPhoto(resultUri);
+                final ProfilePhoto photo = AssetUtils.currentUser.AddPhoto(resultUri);
                 adapter.add(photo);
 //                adapter.add(resultUri);
                 adapter.notifyDataSetChanged();
@@ -233,7 +232,8 @@ public class EditProfileFragment extends Fragment implements View.OnClickListene
                         new OnSuccessListener<UploadTask.TaskSnapshot>() {
                     @Override
                     public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-
+                        photo.storageUri = taskSnapshot.getDownloadUrl();
+                        ImageUtils.PushProfilePhoto(photo);
 
                     }
                 } );
