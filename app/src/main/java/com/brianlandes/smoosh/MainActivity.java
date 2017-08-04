@@ -12,6 +12,7 @@ import com.brianlandes.smoosh.fragments.MainScreenFragment;
 import com.brianlandes.smoosh.fragments.edit_profile.EditProfileFragment;
 import com.brianlandes.smoosh.structures.Smoosher;
 import com.brianlandes.smoosh.utils.AssetUtils;
+import com.brianlandes.smoosh.utils.SmoosherUtils;
 import com.desai.vatsal.mydynamictoast.MyDynamicToast;
 import com.firebase.ui.auth.AuthUI;
 import com.firebase.ui.auth.ErrorCodes;
@@ -61,7 +62,7 @@ public class MainActivity extends AppCompatActivity {
 
         // TODO: on initial registration take them to the edit profile page
 
-        AssetUtils.currentUser = new Smoosher();
+        SmoosherUtils.LoadCurrent();
 
 //        finish();
     }

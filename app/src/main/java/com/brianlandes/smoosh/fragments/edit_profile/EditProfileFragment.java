@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
 import android.graphics.drawable.NinePatchDrawable;
 import android.net.Uri;
 import android.os.Bundle;
@@ -29,6 +30,7 @@ import android.widget.Toast;
 import com.brianlandes.smoosh.AppSettings;
 import com.brianlandes.smoosh.R;
 import com.brianlandes.smoosh.structures.ProfilePhoto;
+import com.brianlandes.smoosh.structures.QuickCallback;
 import com.brianlandes.smoosh.utils.AssetUtils;
 import com.brianlandes.smoosh.utils.ImageUtils;
 import com.brianlandes.smoosh.utils.StorageUtils;
@@ -47,11 +49,14 @@ import com.labo.kaji.fragmentanimations.MoveAnimation;
 import com.yalantis.ucrop.UCrop;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
+
+import static com.brianlandes.smoosh.utils.ImageUtils.FillImageViewWithUrl;
 
 /**
  * Created by Brian on 8/3/2017.
@@ -226,6 +231,8 @@ public class EditProfileFragment extends Fragment implements View.OnClickListene
 //                adapter.add(resultUri);
                 adapter.notifyDataSetChanged();
 
+
+
                 StorageUtils.UploadPhoto(
                         getContext(),
                         resultUri,
@@ -234,7 +241,7 @@ public class EditProfileFragment extends Fragment implements View.OnClickListene
                     public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                         photo.storageUri = taskSnapshot.getDownloadUrl();
                         ImageUtils.PushProfilePhoto(photo);
-
+                        adapter.holderTable.get(photo).imageView.setImageAlpha( 255 );
                     }
                 } );
             } else {
@@ -247,16 +254,6 @@ public class EditProfileFragment extends Fragment implements View.OnClickListene
         }
     }
 
-//    static class MyItem {
-//        public final long id;
-//        public final String text;
-//
-//        public MyItem(long id, String text) {
-//            this.id = id;
-//            this.text = text;
-//        }
-//    }
-
     static class MyViewHolder extends AbstractDraggableItemViewHolder {
         ImageView imageView;
 
@@ -267,42 +264,24 @@ public class EditProfileFragment extends Fragment implements View.OnClickListene
             float w = (float)GridWidth/(float)PICS_PER_ROW - 100;
             imageView.getLayoutParams().width = (int)w;
             imageView.getLayoutParams().height = (int)(w/AppSettings.IMAGE_WIDTH_HEIGHT_RATIO);
-
         }
     }
 
     public class GridAdapter extends RecyclerView.Adapter<MyViewHolder> implements DraggableItemAdapter<MyViewHolder> {
 
         List<ProfilePhoto> mItems;
+        public HashMap<ProfilePhoto,MyViewHolder> holderTable;
 
         public GridAdapter() {
             setHasStableIds(true); // this is required for D&D feature.
 
             mItems = new ArrayList<>();
-//            for (int i = 0; i < 20; i++) {
-//                mItems.add(new MyItem(i, "Item " + i));
-//            }
+            holderTable = new HashMap<>();
         }
 
         public void add( ProfilePhoto photo ) {
             mItems.add( photo );
         }
-
-//        @Override
-//        public View getView(int position, View convertView, ViewGroup parent) {
-//            Uri item = (Uri)getItem(position);
-//            View newView;
-//            if ( convertView == null ) {
-//                newView = LayoutInflater.from( getContext() ).inflate( R.layout.cell_profile_photo, null );
-//            } else
-//                newView = convertView;
-//
-//            final ImageView profilePicView = (ImageView) newView.findViewById(R.id.imageView);
-//            profilePicView.setImageURI(null);
-//            profilePicView.setImageURI(item);
-//
-//            return newView;
-//        }
 
         @Override
         public long getItemId(int position) {
@@ -312,18 +291,32 @@ public class EditProfileFragment extends Fragment implements View.OnClickListene
         @Override
         public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.cell_profile_photo, parent, false);
-//            GridLayoutManager.LayoutParams lp = (GridLayoutManager.LayoutParams) v.getLayoutParams();
-//            lp.height = 100;
-//            v.setLayoutParams(lp);
-
             return new MyViewHolder(v);
         }
 
         @Override
         public void onBindViewHolder(MyViewHolder holder, int position) {
-            ProfilePhoto item = mItems.get(position);
+            final ProfilePhoto item = mItems.get(position);
+            holderTable.put(item,holder);
             holder.imageView.setImageURI(null);
-            holder.imageView.setImageURI(item.localUri);
+            if ( item.localUri!=null ) {
+                holder.imageView.setImageURI(item.localUri);
+                if ( item.storageUri==null )
+                    holder.imageView.setImageAlpha( 60 );
+            } else if ( item.storageUri!=null ) {
+                FillImageViewWithUrl(
+                        holder.imageView,
+                        item.storageUri.toString(),
+                        new QuickCallback() {
+                            @Override
+                            public void Activate(Object... objects) {
+                                Bitmap bitmap = (Bitmap) objects[0];
+                                if ( bitmap!=null ) {
+                                    item.localUri = ImageUtils.SaveBitmapToCache(getContext(),bitmap);
+                                }
+                            }
+                        });
+            }
         }
 
         @Override
@@ -344,7 +337,8 @@ public class EditProfileFragment extends Fragment implements View.OnClickListene
 
         @Override
         public boolean onCheckCanStartDrag(MyViewHolder holder, int position, int x, int y) {
-            return true;
+            ProfilePhoto item = mItems.get(position);
+            return item.storageUri!=null;
         }
 
         @Override

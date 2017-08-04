@@ -3,6 +3,8 @@ package com.brianlandes.smoosh.structures;
 import android.net.Uri;
 import android.provider.ContactsContract;
 
+import com.brianlandes.smoosh.utils.ImageUtils;
+
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -12,6 +14,7 @@ import java.util.Random;
 
 public class Smoosher {
     public String displayName;
+    public String uid;
     public ArrayList<ProfilePhoto> profilePhotos;
 
     public Smoosher() {
@@ -21,16 +24,21 @@ public class Smoosher {
     public ProfilePhoto AddPhoto( Uri uri ) {
         ProfilePhoto newPhoto = new ProfilePhoto();
         newPhoto.localUri = uri;
-        newPhoto.position = profilePhotos.size();
-        newPhoto.id = new Random().nextLong();
-        profilePhotos.add( newPhoto );
-        return newPhoto;
+        return AddPhoto(newPhoto);
+    }
+
+    public ProfilePhoto AddPhoto( ProfilePhoto photo ) {
+        photo.position = profilePhotos.size();
+        photo.id = new Random().nextLong();
+        profilePhotos.add( photo );
+        return photo;
     }
 
     public void ReorderPhotos() {
         int i = 0;
         for (ProfilePhoto photo : profilePhotos ) {
             photo.position = i++;
+            ImageUtils.PushProfilePhoto(photo);
         }
     }
 }

@@ -2,6 +2,8 @@ package com.brianlandes.smoosh.structures;
 
 import android.net.Uri;
 
+import com.google.firebase.database.DataSnapshot;
+
 /**
  * Created by Brian on 8/3/2017.
  */
@@ -13,4 +15,19 @@ public class ProfilePhoto {
     public int position;
     public long id;
 
+    public static ProfilePhoto from( DataSnapshot snapshot ) {
+        ProfilePhoto photo = new ProfilePhoto();
+        photo.storageUri = Uri.parse( snapshot.child("storagePath").getValue().toString());
+        return photo;
+    }
+
+    public Lite asLite() {
+        Lite l = new Lite();
+        l.storagePath = storageUri.toString();
+        return l;
+    }
+
+    public class Lite {
+        public String storagePath;
+    }
 }
