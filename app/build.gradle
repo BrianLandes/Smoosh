@@ -5,11 +5,12 @@ android {
     buildToolsVersion "26.0.1"
     defaultConfig {
         applicationId "com.brianlandes.smoosh"
-        minSdkVersion 15
+        minSdkVersion 16
         targetSdkVersion 25
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        multiDexEnabled true
     }
     buildTypes {
         release {
@@ -35,7 +36,11 @@ dependencies {
     compile 'com.labo.kaji:fragmentanimations:0.1.1'
     compile 'com.github.vatsaldesai92:MyDynamicToastLibrary:1.0.1'
     compile 'com.github.yalantis:ucrop:2.2.1'
-
+    compile 'com.firebaseui:firebase-ui-auth:2.2.0'
+    compile 'com.google.firebase:firebase-storage:11.0.4'
+    compile 'com.google.firebase:firebase-database:10.2.0'
     testCompile 'junit:junit:4.12'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.4.0'
 }
+
+apply plugin: 'com.google.gms.google-services'

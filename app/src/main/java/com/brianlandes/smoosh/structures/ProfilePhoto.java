@@ -11,4 +11,5 @@ public class ProfilePhoto {
     public Uri localUri;
     public int position;
     public long id;
+
 }

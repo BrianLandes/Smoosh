@@ -31,8 +31,12 @@ import com.brianlandes.smoosh.R;
 import com.brianlandes.smoosh.structures.ProfilePhoto;
 import com.brianlandes.smoosh.utils.AssetUtils;
 import com.brianlandes.smoosh.utils.ImageUtils;
+import com.brianlandes.smoosh.utils.StorageUtils;
 import com.desai.vatsal.mydynamictoast.MyDynamicToast;
 
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.UserProfileChangeRequest;
+import com.google.firebase.storage.UploadTask;
 import com.h6ah4i.android.widget.advrecyclerview.animator.DraggableItemAnimator;
 import com.h6ah4i.android.widget.advrecyclerview.animator.GeneralItemAnimator;
 import com.h6ah4i.android.widget.advrecyclerview.draggable.DraggableItemAdapter;
@@ -59,7 +63,7 @@ public class EditProfileFragment extends Fragment implements View.OnClickListene
     private int PICK_IMAGE_REQUEST = 1;
     private static final int REQUEST_STORAGE_PERMISSION = 101;
 
-    public static final int PICS_PER_ROW = 4;
+    public static final int PICS_PER_ROW = 3;
 
     public static int GridWidth = 1;
     public static int GridHeight = 1;
@@ -96,7 +100,7 @@ public class EditProfileFragment extends Fragment implements View.OnClickListene
         // Start dragging after long press
         dragMgr.setInitiateOnLongPress(true);
         dragMgr.setInitiateOnMove(false);
-        dragMgr.setLongPressTimeout(750);
+        dragMgr.setLongPressTimeout(400);
 
         // setup dragging item effects (NOTE: DraggableItemAnimator is required)
         dragMgr.setDragStartItemAnimationDuration(250);
@@ -223,8 +227,16 @@ public class EditProfileFragment extends Fragment implements View.OnClickListene
 //                adapter.add(resultUri);
                 adapter.notifyDataSetChanged();
 
-//                mImageView.setImageURI(null);
-//                mImageView.setImageURI(resultUri);
+                StorageUtils.UploadPhoto(
+                        getContext(),
+                        resultUri,
+                        new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                    @Override
+                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+
+
+                    }
+                } );
             } else {
 //                Toast.makeText(this, "Some shit happened", Toast.LENGTH_SHORT).show();
             }
@@ -252,9 +264,9 @@ public class EditProfileFragment extends Fragment implements View.OnClickListene
             super(itemView);
             imageView = (ImageView) itemView.findViewById(R.id.imageView);
 
-            float w = (float)GridWidth/(float)PICS_PER_ROW;
+            float w = (float)GridWidth/(float)PICS_PER_ROW - 100;
             imageView.getLayoutParams().width = (int)w;
-            imageView.getLayoutParams().height = (int)(w/(float)AppSettings.IMAGE_WIDTH_HEIGHT_RATIO);
+            imageView.getLayoutParams().height = (int)(w/AppSettings.IMAGE_WIDTH_HEIGHT_RATIO);
 
         }
     }
@@ -324,6 +336,10 @@ public class EditProfileFragment extends Fragment implements View.OnClickListene
             ProfilePhoto movedItem = mItems.remove(fromPosition);
             mItems.add(toPosition, movedItem);
             notifyItemMoved(fromPosition, toPosition);
+
+            AssetUtils.currentUser.profilePhotos.clear();
+            AssetUtils.currentUser.profilePhotos.addAll( mItems );
+            AssetUtils.currentUser.ReorderPhotos();
         }
 
         @Override

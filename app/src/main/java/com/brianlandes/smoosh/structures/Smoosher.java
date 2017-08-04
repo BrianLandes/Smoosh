@@ -1,6 +1,7 @@
 package com.brianlandes.smoosh.structures;
 
 import android.net.Uri;
+import android.provider.ContactsContract;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -24,5 +25,12 @@ public class Smoosher {
         newPhoto.id = new Random().nextLong();
         profilePhotos.add( newPhoto );
         return newPhoto;
+    }
+
+    public void ReorderPhotos() {
+        int i = 0;
+        for (ProfilePhoto photo : profilePhotos ) {
+            photo.position = i++;
+        }
     }
 }
