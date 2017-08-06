@@ -4,6 +4,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.Log;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.brianlandes.smoosh.structures.ProfilePhoto;
 import com.brianlandes.smoosh.structures.Smoosher;
@@ -24,28 +25,32 @@ public class SmoosherUtils {
     public static final String TAG = SmoosherUtils.class.getSimpleName();
 
     public static void LoadCurrent() {
+        AssetUtils.currentUser = Load(DatabaseUtils.currentUserUid());
+    }
+
+    public static Smoosher Load( String uid ) {
         final Smoosher smoosher = new Smoosher();
-        smoosher.uid = DatabaseUtils.currentUserUid();
+        smoosher.uid = uid;
         DatabaseReference photoRef = DatabaseUtils.getUserPhotos(smoosher.uid);
         Query photoQuery = photoRef.orderByKey();
         photoQuery.addListenerForSingleValueEvent( new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for( DataSnapshot child : dataSnapshot.getChildren() ) {
-//                    Log.d(TAG, child.child("storagePath").getValue().toString() );
                     ProfilePhoto photo = ProfilePhoto.from( child );
                     smoosher.AddPhoto(photo);
                 }
+                smoosher.PhotoStubsWereLoaded();
             }
             @Override
             public void onCancelled(DatabaseError databaseError) {
                 // todo: handle this shit
             }
         });
-        AssetUtils.currentUser = smoosher;
+        return smoosher;
     }
 
-    public static void FillEditTextWithUserName(@NonNull final EditText editText, @Nullable String uid ) {
+    public static void FillEditTextWithUserName(@NonNull final TextView editText, @Nullable String uid ) {
         DatabaseReference bioRef = DatabaseUtils.getUserName(uid);
 
         bioRef.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -64,7 +69,7 @@ public class SmoosherUtils {
         });
     }
 
-    public static void FillEditTextWithUserBio(@NonNull final EditText editText, @Nullable String uid ) {
+    public static void FillEditTextWithUserBio(@NonNull final TextView editText, @Nullable String uid ) {
         DatabaseReference bioRef = DatabaseUtils.getUserBio(uid);
 
         bioRef.addListenerForSingleValueEvent(new ValueEventListener() {

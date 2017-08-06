@@ -1,0 +1,12 @@
+<component name="libraryTable">
+  <library name="awesomebar-1.0.2">
+    <CLASSES>
+      <root url="file://$USER_HOME$/.android/build-cache/ca822650675e0ec1cc3bac76eae0349922754abb/output/res" />
+      <root url="jar://$USER_HOME$/.android/build-cache/ca822650675e0ec1cc3bac76eae0349922754abb/output/jars/classes.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.github.florent37/awesomebar/1.0.2/332c0a2558c522397e541755214f8ffac033bbbf/awesomebar-1.0.2-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

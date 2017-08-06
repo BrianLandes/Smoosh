@@ -1,0 +1,59 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+
+    tools:context="com.brianlandes.smoosh.fragments.ViewUserFragment">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <com.synnapps.carouselview.CarouselView
+            android:id="@+id/carouselView"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            app:fillColor="#FFFFFFFF"
+            app:pageColor="#00000000"
+            app:radius="6dp"
+            app:slideInterval="6000"
+            app:strokeColor="#FF777777"
+            app:strokeWidth="1dp"
+            app:disableAutoPlayOnUserInteraction="true">
+
+        </com.synnapps.carouselview.CarouselView>
+
+        <TextView
+            android:id="@+id/name_text_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.12"
+            android:ems="10"
+            android:inputType="none"
+            android:padding="8dp"
+            android:paddingLeft="8dp"
+            android:paddingRight="8dp"
+            android:text="Brian"
+            android:textColor="@color/black"
+            android:textSize="24sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/bio_edit_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.12"
+            android:ems="10"
+            android:inputType="none"
+            android:padding="8dp"
+            android:paddingLeft="8dp"
+            android:paddingRight="8dp"
+            android:text="Lar ceci emahes du otelil ralic ta iseme alifeta caneno, retanon rak sumece. Manalav ciesi ra mid isad: Etotobi pugi awerira du! Fapidi vehe loc inaso aric mop detof res, olo ilosele tepure. "
+            android:textSize="18sp" />
+
+    </LinearLayout>
+
+
+</ScrollView>

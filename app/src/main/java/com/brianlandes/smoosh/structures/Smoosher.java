@@ -16,6 +16,8 @@ public class Smoosher {
     public String displayName;
     public String uid;
     public ArrayList<ProfilePhoto> profilePhotos;
+    public boolean photoStubsLoaded = false;
+    public ArrayList<QuickCallback> photoStubsLoadedListeners = new ArrayList<>();
 
     public Smoosher() {
         profilePhotos = new ArrayList<ProfilePhoto>();
@@ -40,5 +42,13 @@ public class Smoosher {
             photo.position = i++;
             ImageUtils.PushProfilePhoto(photo);
         }
+    }
+
+    public void PhotoStubsWereLoaded() {
+        photoStubsLoaded = true;
+        for( QuickCallback callback : photoStubsLoadedListeners ) {
+            callback.Activate(null);
+        }
+        photoStubsLoadedListeners.clear();
     }
 }

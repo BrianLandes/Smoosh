@@ -20,7 +20,7 @@
             android:id="@+id/button2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:onClick="ClickEditProfile"
+            android:onClick="ClickViewProfile"
             android:text="View Profile" />
     </LinearLayout>
 </FrameLayout>

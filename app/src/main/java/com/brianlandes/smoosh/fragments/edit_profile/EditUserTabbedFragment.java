@@ -5,7 +5,9 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,7 +25,7 @@ import butterknife.Unbinder;
  * A simple {@link Fragment} subclass.
  */
 public class EditUserTabbedFragment extends Fragment {
-
+    public final String TAG = EditUserTabbedFragment.class.getSimpleName();
     private Unbinder unbinder;
     CollectionPagerAdapter pagerAdapter;
 
@@ -42,8 +44,10 @@ public class EditUserTabbedFragment extends Fragment {
 
         unbinder = ButterKnife.bind(this, rootView);
 
-        pagerAdapter = new CollectionPagerAdapter( getActivity().getSupportFragmentManager() );
-        mViewPager.setAdapter(pagerAdapter);
+        if ( pagerAdapter==null ) {
+            pagerAdapter = new CollectionPagerAdapter(getActivity().getSupportFragmentManager());
+            mViewPager.setAdapter(pagerAdapter);
+        }
 
         return rootView;
     }
@@ -64,7 +68,7 @@ public class EditUserTabbedFragment extends Fragment {
         unbinder.unbind();
     }
 
-    class CollectionPagerAdapter extends FragmentPagerAdapter {
+    class CollectionPagerAdapter extends FragmentStatePagerAdapter {
 
         public CollectionPagerAdapter(FragmentManager fm) {
             super(fm);

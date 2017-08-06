@@ -7,11 +7,13 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -61,8 +63,8 @@ public class EditPhotosFragment extends Fragment implements View.OnClickListener
 
     public static final int PICS_PER_ROW = 3;
 
-    public static int GridWidth = 1;
-    public static int GridHeight = 1;
+//    public static int GridWidth = 1;
+//    public static int GridHeight = 1;
 
     @BindView(R.id.gridView) RecyclerView gridView;
     @BindView(R.id.button_upload_image) Button uploadButton;
@@ -107,11 +109,11 @@ public class EditPhotosFragment extends Fragment implements View.OnClickListener
 //        dragMgr.attachRecyclerView(gridView);
 
         adapter = new GridAdapter();
-        for ( ProfilePhoto photo : AssetUtils.currentUser.profilePhotos ) {
-            adapter.add(photo);
+        if ( AssetUtils.currentUser.photoStubsLoaded )
+            FillPhotos();
+        else {
+            AssetUtils.currentUser.photoStubsLoadedListeners.add( photosLoadedCallback );
         }
-
-        adapter.notifyDataSetChanged();
 
         mWrappedAdapter = dragMgr.createWrappedAdapter(adapter);      // wrap for dragging
 
@@ -123,14 +125,23 @@ public class EditPhotosFragment extends Fragment implements View.OnClickListener
 
         dragMgr.attachRecyclerView(gridView);
 
-        DisplayMetrics displayMetrics = new DisplayMetrics();
-        getActivity().getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
-
-        GridWidth = displayMetrics.widthPixels;
-        GridHeight = gridView.getHeight();
-
         return rootView;
     }
+
+    public void FillPhotos() {
+        adapter.mItems.clear();
+        for ( ProfilePhoto photo : AssetUtils.currentUser.profilePhotos ) {
+            adapter.add(photo);
+        }
+        adapter.notifyDataSetChanged();
+    }
+
+    QuickCallback photosLoadedCallback = new QuickCallback() {
+        @Override
+        public void Activate(@Nullable Object... objects) {
+            FillPhotos();
+        }
+    };
 
 //    @Override
 //    public Animation onCreateAnimation(int transit, boolean enter, int nextAnim) {
@@ -252,7 +263,7 @@ public class EditPhotosFragment extends Fragment implements View.OnClickListener
             super(itemView);
             imageView = (ImageView) itemView.findViewById(R.id.imageView);
 
-            float w = (float)GridWidth/(float)PICS_PER_ROW - 100;
+            float w = (float)AssetUtils.displayMetrics.widthPixels/(float)PICS_PER_ROW - 100;
             imageView.getLayoutParams().width = (int)w;
             imageView.getLayoutParams().height = (int)(w/AppSettings.IMAGE_WIDTH_HEIGHT_RATIO);
         }

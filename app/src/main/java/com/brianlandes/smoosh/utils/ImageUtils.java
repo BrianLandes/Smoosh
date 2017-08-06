@@ -6,6 +6,7 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.provider.MediaStore;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.widget.ImageView;
 
@@ -105,5 +106,34 @@ public class ImageUtils {
             }
         }
         return Uri.fromFile(file );
+    }
+
+    /**
+     * Either simply sets the image view to display the photo if it is already loaded localy,
+     * or downloads it from the online storage, fills the image view after it is loaded, saves the image
+     * to the cache, and updates the photo's local pointer.
+     * @param imageView
+     * @param photo
+     */
+    public static void FillImageViewWithProfilePhoto(@NonNull final Context context,
+                                                     @NonNull final ImageView imageView,
+                                                     @NonNull final ProfilePhoto photo) {
+        imageView.setImageURI(null);
+        if ( photo.localUri!=null ) {
+            imageView.setImageURI(photo.localUri);
+        } else if ( photo.storageUri!=null ) {
+            FillImageViewWithUrl(
+                    imageView,
+                    photo.storageUri.toString(),
+                    new QuickCallback() {
+                        @Override
+                        public void Activate(Object... objects) {
+                            Bitmap bitmap = (Bitmap) objects[0];
+                            if ( bitmap!=null ) {
+                                photo.localUri = ImageUtils.SaveBitmapToCache(context,bitmap);
+                            }
+                        }
+                    });
+        }
     }
 }
