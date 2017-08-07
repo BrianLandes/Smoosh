@@ -22,5 +22,12 @@
             android:layout_height="wrap_content"
             android:onClick="ClickViewProfile"
             android:text="View Profile" />
+
+        <Button
+            android:id="@+id/button6"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="ClickMatching"
+            android:text="Matching" />
     </LinearLayout>
 </FrameLayout>

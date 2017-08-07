@@ -12,12 +12,9 @@ import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.Animation;
 import android.widget.Button;
 import android.widget.ImageView;
 
@@ -38,7 +35,6 @@ import com.h6ah4i.android.widget.advrecyclerview.draggable.DraggableItemAdapter;
 import com.h6ah4i.android.widget.advrecyclerview.draggable.ItemDraggableRange;
 import com.h6ah4i.android.widget.advrecyclerview.draggable.RecyclerViewDragDropManager;
 import com.h6ah4i.android.widget.advrecyclerview.utils.AbstractDraggableItemViewHolder;
-import com.labo.kaji.fragmentanimations.MoveAnimation;
 import com.yalantis.ucrop.UCrop;
 
 import java.util.ArrayList;
@@ -204,7 +200,7 @@ public class EditPhotosFragment extends Fragment implements View.OnClickListener
                     LaunchPicChooser();
                 } else {
                     // If you do not get permission, show a Toast
-                    MyDynamicToast.errorMessage(getActivity(), getString(R.string.permission_denied));
+                    MyDynamicToast.errorMessage(getActivity(), getString(R.string.photos_permission_denied));
 //                    Toast.makeText(this, R.string.permission_denied, Toast.LENGTH_SHORT).show();
                 }
                 break;
