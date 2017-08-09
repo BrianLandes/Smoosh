@@ -17,17 +17,17 @@ public class ProfilePhoto {
 
     public static ProfilePhoto from( DataSnapshot snapshot ) {
         ProfilePhoto photo = new ProfilePhoto();
-        photo.storageUri = Uri.parse( snapshot.child("storagePath").getValue().toString());
+        photo.storageUri = Uri.parse( snapshot.child("s").getValue().toString());
         return photo;
     }
 
     public Lite asLite() {
         Lite l = new Lite();
-        l.storagePath = storageUri.toString();
+        l.s = storageUri.toString();
         return l;
     }
 
     public class Lite {
-        public String storagePath;
+        public String s;
     }
 }

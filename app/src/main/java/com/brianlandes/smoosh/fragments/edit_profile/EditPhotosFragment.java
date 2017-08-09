@@ -12,6 +12,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,6 +25,7 @@ import com.brianlandes.smoosh.structures.ProfilePhoto;
 import com.brianlandes.smoosh.structures.QuickCallback;
 import com.brianlandes.smoosh.utils.AssetUtils;
 import com.brianlandes.smoosh.utils.ImageUtils;
+import com.brianlandes.smoosh.utils.PermissionsUtils;
 import com.brianlandes.smoosh.utils.StorageUtils;
 import com.desai.vatsal.mydynamictoast.MyDynamicToast;
 
@@ -55,7 +57,7 @@ public class EditPhotosFragment extends Fragment implements View.OnClickListener
     public final String TAG = EditPhotosFragment.class.getSimpleName();
 
     private int PICK_IMAGE_REQUEST = 1;
-    private static final int REQUEST_STORAGE_PERMISSION = 101;
+//    private static final int REQUEST_STORAGE_PERMISSION = 101;
 
     public static final int PICS_PER_ROW = 3;
 
@@ -166,20 +168,17 @@ public class EditPhotosFragment extends Fragment implements View.OnClickListener
 
     public void UploadProfilePic() {
         // Check for the read storage permission
-        if (ContextCompat.checkSelfPermission( getContext(),
-                android.Manifest.permission.READ_EXTERNAL_STORAGE)
-                != PackageManager.PERMISSION_GRANTED) {
-
+//        Log.d(TAG,"UploadProfilePic" );
+        if (!PermissionsUtils.hasReadStorage(getActivity())) {
             // If you do not have permission, request it
-            requestPermissions( new String[]{android.Manifest.permission.READ_EXTERNAL_STORAGE},
-                    REQUEST_STORAGE_PERMISSION);
+            PermissionsUtils.requestReadStorage(this);
         } else {
             // Launch the camera if the permission exists
             LaunchPicChooser();
         }
     }
 
-    void LaunchPicChooser() {
+    public void LaunchPicChooser() {
         Intent intent = new Intent();
         // Show only images, no videos or anything else
         intent.setType("image/*");
@@ -188,25 +187,25 @@ public class EditPhotosFragment extends Fragment implements View.OnClickListener
         startActivityForResult(Intent.createChooser(intent, getString(R.string.label_select_picture)), PICK_IMAGE_REQUEST);
     }
 
-    // Callback method from ActivityCompat.requestPermissions
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
-                                           @NonNull int[] grantResults) {
-        // Called when you request permission to read and write to external storage
-        switch (requestCode) {
-            case REQUEST_STORAGE_PERMISSION: {
-                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    // If you get permission, launch the camera
-                    LaunchPicChooser();
-                } else {
-                    // If you do not get permission, show a Toast
-                    MyDynamicToast.errorMessage(getActivity(), getString(R.string.photos_permission_denied));
-//                    Toast.makeText(this, R.string.permission_denied, Toast.LENGTH_SHORT).show();
-                }
-                break;
-            }
-        }
-    }
+//    @Override
+//    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
+//                                           @NonNull int[] grantResults) {
+//        Log.d(TAG,"onRequestPermissionsResult" );
+//        // Called when you request permission to read and write to external storage
+//        switch (requestCode) {
+//            case REQUEST_STORAGE_PERMISSION: {
+//                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+//                    // If you get permission, launch the camera
+//                    LaunchPicChooser();
+//                } else {
+//                    // If you do not get permission, show a Toast
+//                    MyDynamicToast.errorMessage(getActivity(), getString(R.string.photos_permission_denied));
+////                    Toast.makeText(this, R.string.permission_denied, Toast.LENGTH_SHORT).show();
+//                }
+//                break;
+//            }
+//        }
+//    }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {

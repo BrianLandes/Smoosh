@@ -1,7 +1,9 @@
 package com.brianlandes.smoosh.fragments.edit_profile;
 
 
+import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -15,6 +17,7 @@ import android.view.animation.Animation;
 
 import com.brianlandes.smoosh.AppSettings;
 import com.brianlandes.smoosh.R;
+import com.desai.vatsal.mydynamictoast.MyDynamicToast;
 import com.labo.kaji.fragmentanimations.MoveAnimation;
 
 import butterknife.BindView;
