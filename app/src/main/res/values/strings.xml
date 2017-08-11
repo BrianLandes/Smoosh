@@ -17,4 +17,9 @@
     <string name="name_too_short">Name cannot be empty</string>
     <string name="name_too_long">Name is too long</string>
     <string name="sign_out">Sign Out</string>
+    <string name="search_distance_label">Max Search Distance (miles)</string>
+    <string name="title_activity_main2">Main2Activity</string>
+    <string name="tag_search">Search for a tag</string>
+    <string name="pass_label">Rate and Pass</string>
+    <string name="like_label">Rate and Like</string>
 </resources>

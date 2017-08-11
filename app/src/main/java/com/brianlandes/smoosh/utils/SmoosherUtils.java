@@ -8,6 +8,7 @@ import android.widget.TextView;
 
 import com.brianlandes.smoosh.structures.ProfilePhoto;
 import com.brianlandes.smoosh.structures.Smoosher;
+import com.brianlandes.smoosh.structures.SmoosherSettings;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -26,9 +27,26 @@ public class SmoosherUtils {
 
     public static void LoadCurrent() {
         AssetUtils.currentUser = Load(DatabaseUtils.currentUserUid());
+
+        AssetUtils.currentSettings = new SmoosherSettings();
+        DatabaseReference ref = DatabaseUtils.getUserSettings(null);
+        ref.addListenerForSingleValueEvent( new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if ( dataSnapshot!=null && dataSnapshot.exists() )
+                    AssetUtils.currentSettings.assimilate(dataSnapshot);
+            }
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                // todo: handle this shit
+            }
+        });
     }
 
     public static Smoosher Load( String uid ) {
+        if ( AssetUtils.smooshers.containsKey(uid ) )
+            return AssetUtils.smooshers.get(uid);
+
         final Smoosher smoosher = new Smoosher();
         smoosher.uid = uid;
         DatabaseReference photoRef = DatabaseUtils.getUserPhotos(smoosher.uid);
@@ -47,6 +65,7 @@ public class SmoosherUtils {
                 // todo: handle this shit
             }
         });
+        AssetUtils.smooshers.put(uid,smoosher);
         return smoosher;
     }
 
@@ -86,5 +105,15 @@ public class SmoosherUtils {
                 // todo: handle this shit
             }
         });
+    }
+
+    public static void LikeSmoosher( Smoosher smoosher ) {
+        DatabaseReference ref = DatabaseUtils.getLikes(null);
+        ref.child(smoosher.uid).setValue(true);
+    }
+
+    public static void PassSmoosher( Smoosher smoosher ) {
+        DatabaseReference ref = DatabaseUtils.getLikes(null);
+        ref.child(smoosher.uid).setValue(false);
     }
 }

@@ -3,6 +3,7 @@ package com.brianlandes.smoosh.fragments;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -15,12 +16,14 @@ import android.widget.TextView;
 
 import com.brianlandes.smoosh.AppSettings;
 import com.brianlandes.smoosh.R;
+import com.brianlandes.smoosh.fragments.reviewing.ReviewUserFragment;
 import com.brianlandes.smoosh.structures.ProfilePhoto;
 import com.brianlandes.smoosh.structures.QuickCallback;
 import com.brianlandes.smoosh.structures.Smoosher;
 import com.brianlandes.smoosh.utils.AssetUtils;
 import com.brianlandes.smoosh.utils.ImageUtils;
 import com.brianlandes.smoosh.utils.SmoosherUtils;
+import com.labo.kaji.fragmentanimations.FlipAnimation;
 import com.labo.kaji.fragmentanimations.MoveAnimation;
 import com.synnapps.carouselview.CarouselView;
 import com.synnapps.carouselview.ImageListener;
@@ -41,6 +44,12 @@ public class ViewUserFragment extends Fragment {
     @BindView(R.id.carouselView) CarouselView carouselView ;
     @BindView(R.id.bio_edit_text) TextView bioEditText;
     @BindView(R.id.name_text_view) TextView nameEditText;
+    @BindView(R.id.review_button) FloatingActionButton reviewButton;
+
+    // animation controls
+    boolean goingToReview = false;
+
+    ReviewUserFragment reviewFragment;
 
     public static ViewUserFragment with(Smoosher smoosher) {
         ViewUserFragment fragment = new ViewUserFragment();
@@ -83,6 +92,16 @@ public class ViewUserFragment extends Fragment {
         SmoosherUtils.FillEditTextWithUserName(nameEditText, smoosher.uid );
         SmoosherUtils.FillEditTextWithUserBio(bioEditText, smoosher.uid );
 
+        reviewButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+//                if ( reviewFragment==null )
+                    reviewFragment = ReviewUserFragment.with(smoosher);
+                goingToReview = true;
+                AssetUtils.ShowFragment(getActivity(),reviewFragment);
+            }
+        });
+
         return rootView;
     }
 
@@ -102,7 +121,10 @@ public class ViewUserFragment extends Fragment {
         if (enter) {
             return MoveAnimation.create(MoveAnimation.LEFT, enter, AppSettings.TRANSITION_DURATION);
         } else {
-            return MoveAnimation.create(MoveAnimation.RIGHT, enter, AppSettings.TRANSITION_DURATION);
+            if ( goingToReview )
+                return FlipAnimation.create(FlipAnimation.RIGHT, enter, AppSettings.TRANSITION_DURATION);
+            else
+                return MoveAnimation.create(MoveAnimation.RIGHT, enter, AppSettings.TRANSITION_DURATION);
         }
     }
 

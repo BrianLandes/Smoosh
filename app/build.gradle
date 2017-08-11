@@ -48,9 +48,16 @@ dependencies {
     compile 'com.github.florent37:awesomebar:1.0.2'
     compile 'com.google.android.gms:play-services-location:11.0.4'
     compile 'com.firebase:geofire-android:2.1.1'
+    compile 'org.adw.library:discrete-seekbar:1.0.1'
+    compile 'com.lorentzos.swipecards:library:1.0.9@aar'
+    compile 'com.github.adroitandroid:ChipCloud:2.2.1'
     testCompile 'junit:junit:4.12'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.4.0'
 }
+
+
+
+
 
 
 

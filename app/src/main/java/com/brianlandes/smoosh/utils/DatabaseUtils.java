@@ -3,6 +3,7 @@ package com.brianlandes.smoosh.utils;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
+import com.brianlandes.smoosh.structures.SmoosherSettings;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -46,7 +47,7 @@ public class DatabaseUtils {
         FirebaseDatabase database = Database();
         if ( uid == null )
             uid = currentUserUid();
-        String path = "bios/" + uid + "/";
+        String path = "users/" + uid + "/bio";
         return database.getReference( path );
     }
 
@@ -59,7 +60,7 @@ public class DatabaseUtils {
         FirebaseDatabase database = Database();
         if ( uid == null )
             uid = currentUserUid();
-        String path = "names/" + uid + "/";
+        String path = "users/" + uid + "/name";
         return database.getReference( path );
     }
 
@@ -67,4 +68,58 @@ public class DatabaseUtils {
         DatabaseReference bioRef = DatabaseUtils.getUserName(null);
         bioRef.setValue( text);
     }
+
+    public static DatabaseReference getUserSettings( @Nullable String uid ) {
+        FirebaseDatabase database = Database();
+        if ( uid == null )
+            uid = currentUserUid();
+        String path = "settings/" + uid + "/";
+        return database.getReference( path );
+    }
+
+    public static void SetUserSettings( SmoosherSettings settings ) {
+        DatabaseReference ref = DatabaseUtils.getUserSettings(null);
+        ref.setValue( settings );
+    }
+
+    public static DatabaseReference getTags() {
+        FirebaseDatabase database = Database();
+        String path = "tags/";
+        return database.getReference( path );
+    }
+
+    public static DatabaseReference getUserRatings() {
+        FirebaseDatabase database = Database();
+        String path = "user_ratings/";
+        return database.getReference( path );
+    }
+
+    public static DatabaseReference getRatingsSentBy( @Nullable String uid ) {
+        FirebaseDatabase database = Database();
+        if ( uid == null )
+            uid = currentUserUid();
+        String path = "user_ratings/" + uid;
+        return database.getReference( path );
+    }
+
+    public static DatabaseReference getRatingsAppliedTo( @Nullable String uid ) {
+        FirebaseDatabase database = Database();
+        if ( uid == null )
+            uid = currentUserUid();
+        String path = "users/" + uid + "/ratings/";
+        return database.getReference( path );
+    }
+
+    public static DatabaseReference getLikes( @Nullable String uid ) {
+        FirebaseDatabase database = Database();
+        if ( uid == null )
+            uid = currentUserUid();
+        String path = "users/" + uid + "/likes/";
+        return database.getReference( path );
+    }
+
+//    public static SmoosherSettings GetUserSettings() {
+//        DatabaseReference ref = DatabaseUtils.getUserSettings(null);
+//        SmoosherSettings settings = ref.
+//    }
 }

@@ -16,6 +16,7 @@ import com.brianlandes.smoosh.fragments.MainScreenFragment;
 import com.brianlandes.smoosh.fragments.ViewUserFragment;
 import com.brianlandes.smoosh.fragments.edit_profile.EditUserTabbedFragment;
 import com.brianlandes.smoosh.fragments.matching.MatchFragment;
+import com.brianlandes.smoosh.fragments.matching.SwipingFragment;
 import com.brianlandes.smoosh.utils.AssetUtils;
 import com.brianlandes.smoosh.utils.DatabaseUtils;
 import com.brianlandes.smoosh.utils.LocationUtils;
@@ -43,7 +44,6 @@ public class MainActivity extends AppCompatActivity {
     private static final int RC_SIGN_IN = 123;
 
     FragmentManager fragmentManager;
-
 
     @BindView(R.id.bar)
     AwesomeBar bar;
@@ -149,7 +149,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void ClickMatching(View view) {
-        MatchFragment fragment = new MatchFragment();
+        SwipingFragment fragment = new SwipingFragment();
         fragmentManager.beginTransaction()
                 .replace(R.id.main_container, fragment)
                 .addToBackStack(null)
