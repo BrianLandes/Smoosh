@@ -118,6 +118,22 @@ public class DatabaseUtils {
         return database.getReference( path );
     }
 
+    public static DatabaseReference getNeedsTagsUpdate( @Nullable String uid ) {
+        FirebaseDatabase database = Database();
+        if ( uid == null )
+            uid = currentUserUid();
+        String path = "users/" + uid + "/ntu/";
+        return database.getReference( path );
+    }
+
+    public static DatabaseReference getUserTags( @Nullable String uid ) {
+        FirebaseDatabase database = Database();
+        if ( uid == null )
+            uid = currentUserUid();
+        String path = "users/" + uid + "/tags/";
+        return database.getReference( path );
+    }
+
 //    public static SmoosherSettings GetUserSettings() {
 //        DatabaseReference ref = DatabaseUtils.getUserSettings(null);
 //        SmoosherSettings settings = ref.

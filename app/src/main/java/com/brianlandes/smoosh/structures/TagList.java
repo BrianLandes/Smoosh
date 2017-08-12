@@ -48,6 +48,11 @@ public class TagList {
         return -1;
     }
 
+    public void Clear() {
+        list.clear();
+        NotifyChangeListeners();
+    }
+
     public void Remove( Tag tag ) {
         boolean removed = list.remove(tag );
         if ( removed)

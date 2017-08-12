@@ -152,6 +152,7 @@ public class ReviewUserFragment extends BaseFragment {
             public void onClick(View v) {
                 String phrase = searchBar.getText().toString();
                 TagUtils.AddTag(phrase);
+                TagUtils.GetTagsContaining(phrase.toLowerCase(),searchTags);
 //                Log.d(TAG,"add button pressed: " + phrase );
             }
         });

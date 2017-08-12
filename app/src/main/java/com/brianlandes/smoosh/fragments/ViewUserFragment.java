@@ -14,15 +14,20 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.adroitandroid.chipcloud.ChipCloud;
 import com.brianlandes.smoosh.AppSettings;
 import com.brianlandes.smoosh.R;
 import com.brianlandes.smoosh.fragments.reviewing.ReviewUserFragment;
 import com.brianlandes.smoosh.structures.ProfilePhoto;
 import com.brianlandes.smoosh.structures.QuickCallback;
 import com.brianlandes.smoosh.structures.Smoosher;
+import com.brianlandes.smoosh.structures.Tag;
+import com.brianlandes.smoosh.structures.TagList;
 import com.brianlandes.smoosh.utils.AssetUtils;
 import com.brianlandes.smoosh.utils.ImageUtils;
 import com.brianlandes.smoosh.utils.SmoosherUtils;
+import com.brianlandes.smoosh.utils.TagUtils;
+import com.labo.kaji.fragmentanimations.CubeAnimation;
 import com.labo.kaji.fragmentanimations.FlipAnimation;
 import com.labo.kaji.fragmentanimations.MoveAnimation;
 import com.synnapps.carouselview.CarouselView;
@@ -45,9 +50,13 @@ public class ViewUserFragment extends Fragment {
     @BindView(R.id.bio_edit_text) TextView bioEditText;
     @BindView(R.id.name_text_view) TextView nameEditText;
     @BindView(R.id.review_button) FloatingActionButton reviewButton;
+    @BindView(R.id.tag_cloud) ChipCloud tagCloud;
 
     // animation controls
     boolean goingToReview = false;
+    boolean comingFromSwipe = false;
+
+    TagList tagList = new TagList();
 
     ReviewUserFragment reviewFragment;
 
@@ -55,6 +64,11 @@ public class ViewUserFragment extends Fragment {
         ViewUserFragment fragment = new ViewUserFragment();
         fragment.smoosher = smoosher;
         return fragment;
+    }
+
+    public ViewUserFragment fromSwiping() {
+        this.comingFromSwipe = true;
+        return this;
     }
 
     public ViewUserFragment() {
@@ -91,6 +105,18 @@ public class ViewUserFragment extends Fragment {
 
         SmoosherUtils.FillEditTextWithUserName(nameEditText, smoosher.uid );
         SmoosherUtils.FillEditTextWithUserBio(bioEditText, smoosher.uid );
+        tagList = new TagList();
+        TagUtils.GetUsersTags(smoosher, tagList);
+        tagList.changeListeners.add(new QuickCallback() {
+            @Override
+            public void Activate(@Nullable Object... objects) {
+                tagCloud.removeAllViews();
+                for( Tag tag : tagList.Tags()) {
+                    tagCloud.addChip(tag.phrase);
+                }
+//                Log.d(TAG, "Tag list size: " + Integer.toString(tagList.Size() ) + " : " + System.identityHashCode(tagList) );
+            }
+        });
 
         reviewButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -119,11 +145,16 @@ public class ViewUserFragment extends Fragment {
     @Override
     public Animation onCreateAnimation(int transit, boolean enter, int nextAnim) {
         if (enter) {
-            return MoveAnimation.create(MoveAnimation.LEFT, enter, AppSettings.TRANSITION_DURATION);
+            if ( comingFromSwipe ) {
+                comingFromSwipe = false;
+                return CubeAnimation.create(CubeAnimation.UP, enter, AppSettings.TRANSITION_DURATION);
+            } else
+                return MoveAnimation.create(MoveAnimation.LEFT, enter, AppSettings.TRANSITION_DURATION);
         } else {
-            if ( goingToReview )
+            if ( goingToReview ) {
+                goingToReview = false;
                 return FlipAnimation.create(FlipAnimation.RIGHT, enter, AppSettings.TRANSITION_DURATION);
-            else
+            } else
                 return MoveAnimation.create(MoveAnimation.RIGHT, enter, AppSettings.TRANSITION_DURATION);
         }
     }

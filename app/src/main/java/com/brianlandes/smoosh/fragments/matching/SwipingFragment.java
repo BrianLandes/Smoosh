@@ -25,6 +25,7 @@ import com.brianlandes.smoosh.utils.AssetUtils;
 import com.brianlandes.smoosh.utils.ImageUtils;
 import com.brianlandes.smoosh.utils.LocationUtils;
 import com.brianlandes.smoosh.utils.SmoosherUtils;
+import com.labo.kaji.fragmentanimations.CubeAnimation;
 import com.labo.kaji.fragmentanimations.MoveAnimation;
 import com.lorentzos.flingswipe.SwipeFlingAdapterView;
 
@@ -69,12 +70,14 @@ public class SwipingFragment extends Fragment {
 
         LocationUtils.QueryNearySmooshers(getActivity(),true);
 
+        //choose your favorite adapter
+        arrayAdapter = new MyAdapter(getActivity(),smooshers );
+
         AssetUtils.nearbySmooshersLoadedListeners.add( smoosherCallback );
 
         Log.d(TAG,"oncreateview");
 
-        //choose your favorite adapter
-        arrayAdapter = new MyAdapter(getActivity(),smooshers );
+
 
         //set the listener and the adapter
         flingContainer.setAdapter(arrayAdapter);
@@ -121,7 +124,8 @@ public class SwipingFragment extends Fragment {
             public void onItemClicked(int itemPosition, Object dataObject) {
 //                makeToast(MyActivity.this, "Clicked!");
                 Smoosher smoosher = arrayAdapter.getItem(itemPosition);
-                ViewUserFragment fragment = ViewUserFragment.with(smoosher);
+                ViewUserFragment fragment = ViewUserFragment.with(smoosher)
+                        .fromSwiping();
                 showingUser = true;
                 AssetUtils.ShowFragment(getActivity(),fragment);
             }
@@ -141,7 +145,8 @@ public class SwipingFragment extends Fragment {
     public void AddSmoosher( String uid ) {
         Smoosher newSmoosher = SmoosherUtils.Load( uid );
         smooshers.add( newSmoosher );
-        arrayAdapter.notifyDataSetChanged();
+        if ( arrayAdapter!=null )
+            arrayAdapter.notifyDataSetChanged();
     }
 
     @Override public void onDestroyView() {
@@ -153,10 +158,15 @@ public class SwipingFragment extends Fragment {
 
     @Override
     public Animation onCreateAnimation(int transit, boolean enter, int nextAnim) {
+        Log.d(TAG, Integer.toString(transit ) );
         if (enter) {
             return MoveAnimation.create(MoveAnimation.LEFT, enter, AppSettings.TRANSITION_DURATION);
         } else {
-            return MoveAnimation.create(MoveAnimation.RIGHT, enter, AppSettings.TRANSITION_DURATION);
+            if ( showingUser ) {
+                showingUser=false;
+                return CubeAnimation.create(CubeAnimation.UP, enter, AppSettings.TRANSITION_DURATION);
+            } else
+                return MoveAnimation.create(MoveAnimation.RIGHT, enter, AppSettings.TRANSITION_DURATION);
         }
     }
 
