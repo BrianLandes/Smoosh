@@ -142,6 +142,8 @@ public class MainActivity extends AppCompatActivity {
                 .commit();
     }
 
+    public void addedATestFunction() {}
+
     public void ClickViewProfile(View view) {
         ViewUserFragment fragment = ViewUserFragment.with(AssetUtils.currentUser);
         fragmentManager.beginTransaction()
