@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -12,6 +13,7 @@ import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 
+import com.brianlandes.smoosh.fragments.BaseFragment;
 import com.brianlandes.smoosh.fragments.MainScreenFragment;
 import com.brianlandes.smoosh.fragments.ViewUserFragment;
 import com.brianlandes.smoosh.fragments.edit_profile.EditUserTabbedFragment;
@@ -150,10 +152,27 @@ public class MainActivity extends AppCompatActivity {
 
     public void ClickMatching(View view) {
         SwipingFragment fragment = new SwipingFragment();
+        fragment.fromMainScreen = true;
         fragmentManager.beginTransaction()
                 .replace(R.id.main_container, fragment)
                 .addToBackStack(null)
                 .commit();
+    }
+
+    @Override
+    public void onBackPressed() {
+        // some hackery to control the back animations
+//        Log.d(TAG, "Back pressed" );
+        for ( Fragment fragment: fragmentManager.getFragments() ) {
+            Log.d(TAG,fragment.toString() );
+            try {
+                BaseFragment baseFragment = (BaseFragment) fragment;
+                baseFragment.goingBack = true;
+            } catch (Exception e ) {
+//                Log.e(TAG, e.getMessage() );
+            }
+        }
+        super.onBackPressed();
     }
 
     @Override

@@ -56,4 +56,12 @@ public class AssetUtils {
                 .addToBackStack(null)
                 .commit();
     }
+
+    public static void ShowFragmentNoBack( Activity activity, Fragment fragment ) {
+        FragmentManager fragmentManager = ((MainActivity)activity).getSupportFragmentManager();
+        fragmentManager.beginTransaction()
+                .replace(R.id.main_container, fragment)
+//                .addToBackStack(null)
+                .commit();
+    }
 }

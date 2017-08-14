@@ -27,6 +27,7 @@ import com.brianlandes.smoosh.structures.TagList;
 import com.brianlandes.smoosh.utils.RatingUtils;
 import com.brianlandes.smoosh.utils.SmoosherUtils;
 import com.brianlandes.smoosh.utils.TagUtils;
+import com.labo.kaji.fragmentanimations.CubeAnimation;
 import com.labo.kaji.fragmentanimations.FlipAnimation;
 import com.labo.kaji.fragmentanimations.MoveAnimation;
 
@@ -186,6 +187,10 @@ public class ReviewUserFragment extends BaseFragment {
         RatingUtils.UpdateRating(smoosher,tagKeys );
     }
 
+    public void GoBackToSwiping() {
+
+    }
+
     TextWatcher searchBarWatcher = new TextWatcher() {
 
         @Override
@@ -209,7 +214,13 @@ public class ReviewUserFragment extends BaseFragment {
         if (enter) {
             return FlipAnimation.create(FlipAnimation.RIGHT, enter, AppSettings.TRANSITION_DURATION);
         } else {
-            return MoveAnimation.create(MoveAnimation.LEFT, enter, AppSettings.TRANSITION_DURATION);
+            if ( goingBack ) {
+                goingBack=false;
+                return FlipAnimation.create(FlipAnimation.LEFT, enter, AppSettings.TRANSITION_DURATION);
+            } else
+                return MoveAnimation.create(MoveAnimation.RIGHT, enter, AppSettings.TRANSITION_DURATION);
+
+//            return MoveAnimation.create(MoveAnimation.LEFT, enter, AppSettings.TRANSITION_DURATION);
         }
     }
 }

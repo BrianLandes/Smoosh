@@ -40,9 +40,8 @@ import butterknife.Unbinder;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class ViewUserFragment extends Fragment {
+public class ViewUserFragment extends BaseFragment {
     public final String TAG = ViewUserFragment.class.getSimpleName();
-    private Unbinder unbinder;
 
     private Smoosher smoosher;
 
@@ -87,12 +86,8 @@ public class ViewUserFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-
-
-
-        View rootView = inflater.inflate(R.layout.fragment_view_user, container, false);
-
-        unbinder = ButterKnife.bind(this, rootView);
+        layoutResource = R.layout.fragment_view_user;
+        View rootView = super.onCreateView(inflater,container,savedInstanceState);
 
         carouselView.setImageListener(imageListener);
 
@@ -149,20 +144,17 @@ public class ViewUserFragment extends Fragment {
                 comingFromSwipe = false;
                 return CubeAnimation.create(CubeAnimation.UP, enter, AppSettings.TRANSITION_DURATION);
             } else
-                return MoveAnimation.create(MoveAnimation.LEFT, enter, AppSettings.TRANSITION_DURATION);
+                return FlipAnimation.create(FlipAnimation.LEFT, enter, AppSettings.TRANSITION_DURATION);
         } else {
             if ( goingToReview ) {
                 goingToReview = false;
                 return FlipAnimation.create(FlipAnimation.RIGHT, enter, AppSettings.TRANSITION_DURATION);
+            } else if ( goingBack ) {
+                goingBack = false;
+                return CubeAnimation.create(CubeAnimation.DOWN, enter, AppSettings.TRANSITION_DURATION);
             } else
                 return MoveAnimation.create(MoveAnimation.RIGHT, enter, AppSettings.TRANSITION_DURATION);
         }
     }
 
-    // When binding a fragment in onCreateView, set the views to null in onDestroyView.
-    // ButterKnife returns an Unbinder on the initial binding that has an unbind method to do this automatically.
-    @Override public void onDestroyView() {
-        super.onDestroyView();
-        unbinder.unbind();
-    }
 }

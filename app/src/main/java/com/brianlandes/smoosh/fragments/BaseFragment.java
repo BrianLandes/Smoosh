@@ -22,6 +22,8 @@ public class BaseFragment extends Fragment {
 
     public int layoutResource = R.layout.activity_main;
 
+    public boolean goingBack = false;
+
     public BaseFragment() {
         // Required empty public constructor
     }
