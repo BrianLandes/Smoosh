@@ -126,6 +126,12 @@ public class ViewUserFragment extends BaseFragment {
         return rootView;
     }
 
+    @Override public void onDestroyView() {
+        super.onDestroyView();
+        tagList.changeListeners.clear();
+        
+    }
+
     public void FillPhotos() {
         carouselView.setPageCount(smoosher.profilePhotos.size());
     }
