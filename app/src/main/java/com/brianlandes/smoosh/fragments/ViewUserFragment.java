@@ -129,7 +129,7 @@ public class ViewUserFragment extends BaseFragment {
     @Override public void onDestroyView() {
         super.onDestroyView();
         tagList.changeListeners.clear();
-        
+
     }
 
     public void FillPhotos() {

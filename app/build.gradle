@@ -33,6 +33,11 @@ dependencies {
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
     compile 'com.android.support:recyclerview-v7:25.3.1'
     compile 'com.jakewharton:butterknife:8.4.0'
+    compile 'com.kyleduo.switchbutton:library:1.4.6' // haven't given credit yet
+    compile 'io.apptik.widget:multislider:1.3' // haven't given credit yet
+    compile 'org.adw.library:discrete-seekbar:1.0.1' // haven't given credit yet
+    compile 'com.lorentzos.swipecards:library:1.0.9@aar' // haven't given credit yet
+
     compile 'com.labo.kaji:fragmentanimations:0.1.1'
     compile 'com.github.vatsaldesai92:MyDynamicToastLibrary:1.0.1'
     compile 'com.github.yalantis:ucrop:2.2.1'
@@ -42,14 +47,10 @@ dependencies {
     compile 'com.android.support:support-v4:25.3.1'
     compile 'com.rengwuxian.materialedittext:library:2.1.4'
     compile 'com.github.dmallcott:DismissibleImageView:1.0.1'
-    compile 'com.kyleduo.switchbutton:library:1.4.6'
-    compile 'io.apptik.widget:multislider:1.3'
     compile 'com.synnapps:carouselview:0.1.4'
     compile 'com.github.florent37:awesomebar:1.0.2'
     compile 'com.google.android.gms:play-services-location:11.0.4'
     compile 'com.firebase:geofire-android:2.1.1'
-    compile 'org.adw.library:discrete-seekbar:1.0.1'
-    compile 'com.lorentzos.swipecards:library:1.0.9@aar'
     compile 'com.github.adroitandroid:ChipCloud:2.2.1'
     testCompile 'junit:junit:4.12'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.4.0'
